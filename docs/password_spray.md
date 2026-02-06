@@ -1,16 +1,25 @@
+# Password Spray Detection (Microsoft Sentinel)
+
 ## What it detects
-- Single IP performs failed sign-ins against many user accounts in a short time window.
+Detects potential password spraying activity where a single IP address attempts authentication against multiple user accounts within a short time window.
 
-## MITRE
-- TA0006 Credential Access
-- T1110 Brute Force / password spraying
+## MITRE ATT&CK Mapping
+- TA0006 – Credential Access
+- T1110.003 – Password Spraying
 
-## False positives
-- 社内プロキシ/NAT配下の誤検知（多数ユーザーが同一IPに見える）
-- SSO障害で一斉失敗
-- 監査ツール/正規スキャナ
+## Detection Logic
+- Time window: 1 hour
+- Aggregation bin: 5 minutes
+- Minimum failed attempts: 20
+- Minimum distinct users targeted: 8
 
-## Tuning knobs
-- minUsers を環境に合わせて上げる
-- ClientAppUsed や AppDisplayName で対象を絞る
-- 既知のプロキシIPを allowlist
+## False Positives
+- Corporate NAT or proxy environments
+- Identity provider outages
+- Internal security scanning tools
+
+## Tuning Recommendations
+- Increase `minUsers` for large environments
+- Exclude trusted IP ranges
+- Filter specific `AppDisplayName` if necessary
+
