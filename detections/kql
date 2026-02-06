@@ -1,0 +1,28 @@
+<YourTable>
+| where TimeGenerated > ago(1h)
+| where <Condition>
+| summarize Count=count(), Users=dcount(<UserField>), SrcIPs=dcount(<IpField>) by bin(TimeGenerated, 5m), <IpField>
+| where Count >= 20
+| sort by Count desc
+
+#いつもと違う挙動
+let lookback = 14d;
+let baseline =
+    <YourTable>
+    | where TimeGenerated between (ago(lookback) .. ago(1d))
+    | summarize BaselineCount=count() by <EntityField>;
+<YourTable>
+| where TimeGenerated > ago(1d)
+| summarize TodayCount=count() by <EntityField>
+| join kind=leftouter baseline on <EntityField>
+| extend BaselineCount = coalesce(BaselineCount, 0)
+| where TodayCount > 0 and BaselineCount == 0
+| sort by TodayCount desc
+
+
+#連鎖（同一端末で怪しい順）
+<YourTable>
+| where TimeGenerated > ago(1h)
+| where <StepConditionA> or <StepConditionB> or <StepConditionC>
+| sort by TimeGenerated asc
+| serialize
