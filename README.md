@@ -1,16 +1,12 @@
-# Sentinel-kql-detections
+# Sentinel KQL Detection Rules
 
-This repositry is 
-Detection Pack（KQL × 10本）
-各検知に
-目的（What it detects）
-前提ログ（Required tables）
-MITRE（Tactic/Technique）
-誤検知（Common FP）
-チューニング（Tuning knobs）
-例アラートJSON
-Incident Report（英語テンプレ＋実例3本）
-triage → evidence → decision → next steps
+This repository contains a set of Microsoft Sentinel detection rules and KQL queries designed for real-world Security Operations use.  
+The focus is on high-impact detection scenarios including brute-force, suspicious scripting, privilege escalation, and lateral movement patterns.
 
-README 1枚で全体が分かるポートフォリオ
-“I build detections in Sentinel (KQL) and document tuning + reporting.”
+Each rule includes:
+- KQL query
+- MITRE ATT&CK mapping
+- tuning guidance and false positive considerations
+
+The goal is to demonstrate practical detection engineering capability and readiness for SOC/Detection roles in English-speaking environments.
+
